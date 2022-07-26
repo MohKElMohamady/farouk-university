@@ -1,4 +1,4 @@
-package org.horatio.farouk_university.configurations;
+package io.horatius.farouk_university.models.configurations;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

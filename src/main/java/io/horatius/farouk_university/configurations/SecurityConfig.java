@@ -1,4 +1,4 @@
-package org.horatio.farouk_university.configurations;
+package io.horatius.farouk_university.models.configurations;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
