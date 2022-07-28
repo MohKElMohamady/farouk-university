@@ -35,7 +35,13 @@ public class Enrollment {
             this.enrolledUser = new User(username);
             return this;
         }
-
+        public Builder course(UUID courseId){
+            this.course = new Course
+                    .Builder()
+                    .courseId(courseId)
+                    .build();
+            return this;
+        }
         public Builder course(Course course){
             this.course = course;
             return this;
