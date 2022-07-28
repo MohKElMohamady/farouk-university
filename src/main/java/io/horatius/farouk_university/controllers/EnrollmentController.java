@@ -24,7 +24,7 @@ public class EnrollmentController {
     }
 
     @GetMapping("/course/{courseId}")
-    public Flux<Enrollment> getEnroll(@PathVariable UUID courseId , Principal principal){
+    public Flux<Enrollment> getEnroll(@PathVariable UUID courseId , Mono<Principal> principal){
         return enrollmentService.getEnrollment(courseId, principal);
     }
 }
