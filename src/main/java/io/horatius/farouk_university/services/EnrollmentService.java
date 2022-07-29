@@ -3,8 +3,10 @@ package io.horatius.farouk_university.services;
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 import io.horatius.farouk_university.dao.EnrollmentByCourse;
 import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.exceptions.MaximumUsersEnrolledException;
 import io.horatius.farouk_university.exceptions.UserAlreadyEnrolledException;
 import io.horatius.farouk_university.models.Enrollment;
+import io.horatius.farouk_university.repositories.CourseCapacityRepository;
 import io.horatius.farouk_university.repositories.EnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,8 +20,16 @@ import java.util.UUID;
 public class EnrollmentService {
     @Autowired
     private EnrollmentRepository enrollmentRepository;
+    @Autowired
+    private CourseCapacityRepository courseCapacityRepository;
     public Mono<Enrollment> enrollUserToCourseWithMono(UUID courseId, Mono<Principal> principle){
         Mono<User> p = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        this.courseCapacityRepository.findCourseFreeSlotsByCourseId(courseId)
+                .flatMap(courseCapacity -> {
+                    if (courseCapacity.getCapacity() > 1)
+                        return Mono.error(new MaximumUsersEnrolledException());
+                    return Mono.empty();
+                });
         return p.flatMap(userToBeEnrolled -> {
                     /*
                      * Fetch the reactive stream and filter it with the partition key
@@ -57,6 +67,12 @@ public class EnrollmentService {
      */
     public Flux<Enrollment> enrollUserToCourseWithFlux(UUID courseId, Mono<Principal> principle){
         Mono<User> p = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        this.courseCapacityRepository.findCourseFreeSlotsByCourseId(courseId)
+                .flatMap(courseCapacity -> {
+                    if (courseCapacity.getCapacity() > 1)
+                        return Mono.error(new MaximumUsersEnrolledException());
+                    return Mono.empty();
+                });
         return p.flatMapMany(userToBeEnrolled -> {
             /*
              * Fetch the reactive stream and filter it with the partition key
