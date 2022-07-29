@@ -1,26 +1,20 @@
 package io.horatius.farouk_university.dao;
 
+import io.horatius.farouk_university.dao.keys.CourseKey;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
-import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
 import org.springframework.data.cassandra.core.mapping.Table;
 
-import java.util.UUID;
-
-@Table(value = "courses_by_user")
+@Table(value = "courses_by_creator_and_id")
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
-public class CourseByCreator {
-    @PrimaryKeyColumn(value = "course_creator", type = PrimaryKeyType.PARTITIONED)
-    private String courseCreator;
-    @PrimaryKeyColumn(value = "course_id", type = PrimaryKeyType.PARTITIONED)
-    @CassandraType(type = CassandraType.Name.TIMEUUID)
-    private UUID courseId;
+public class CourseByCreatorAndId {
+    @PrimaryKey(value = "course_key")
+    private CourseKey courseKey;
     @CassandraType(type = CassandraType.Name.TEXT, userTypeName = "course_name")
     private String courseName;
     @CassandraType(type = CassandraType.Name.TEXT)

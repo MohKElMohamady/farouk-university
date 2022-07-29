@@ -1,6 +1,6 @@
 package io.horatius.farouk_university.models;
 
-import io.horatius.farouk_university.dao.CourseByCreator;
+import io.horatius.farouk_university.dao.CourseByCreatorAndId;
 import io.horatius.farouk_university.dao.User;
 import lombok.*;
 
@@ -19,10 +19,10 @@ public class Course {
     private List<Enrollment> enrollmentList;
     private int capacity;
 
-    public Course(CourseByCreator courseByCreator, int capacity){
-        this.courseId = courseByCreator.getCourseId();
-        this.description = courseByCreator.getDescription();
-        this.enrollmentKey = courseByCreator.getEnrollmentKey();
+    public Course(CourseByCreatorAndId courseByCreatorAndId, int capacity){
+        this.courseId = courseByCreatorAndId.getCourseKey().getCourseId();
+        this.description = courseByCreatorAndId.getDescription();
+        this.enrollmentKey = courseByCreatorAndId.getEnrollmentKey();
         /* Inject the user with the CourseByUser later as a parameter in the constructor */
         this.enrollmentList = new ArrayList<>();
         this.capacity = capacity;
