@@ -12,6 +12,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class Course {
     private UUID courseId;
+    private String courseName;
     private String description;
     private String enrollmentKey;
     private User creator;
