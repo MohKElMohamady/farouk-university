@@ -5,6 +5,7 @@ import io.horatius.farouk_university.dao.CourseByCreatorAndId;
 import io.horatius.farouk_university.dao.User;
 import io.horatius.farouk_university.dao.keys.CourseKey;
 import io.horatius.farouk_university.exceptions.InvalidCourseException;
+import io.horatius.farouk_university.exceptions.NotAllowedToCreateAssignmentException;
 import io.horatius.farouk_university.models.Course;
 import io.horatius.farouk_university.repositories.CourseRepository;
 import io.horatius.farouk_university.repositories.EnrollmentRepository;
@@ -121,7 +122,7 @@ public class CourseService {
                      });
             }
         ).log();*/
-        Mono<User> principalPlaceholder = Mono.just(new User("laurence.krauss", "whatifitsnotequal", "Kate", "Dibiasky"));
+        Mono<User> principalPlaceholder = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         Flux<UUID> availableCoursesId = this.courseCapacityRepository
                 .findAll()
                 .filter(course -> course.getCapacity() >= 1)
@@ -137,5 +138,17 @@ public class CourseService {
                    .filterWhen(courseByCreatorAndId -> availableCoursesId.hasElement(courseByCreatorAndId.getCourseKey().getCourseId()));
         });
 
+    }
+    public Mono<Void> throwExceptionIfIsNotCreator(Mono<User> userCreatingAssignment, UUID courseId){
+        return userCreatingAssignment.flatMap(user -> {
+            return this.courseRepository.getCourseCreatorUserName(courseId)
+                                 .flatMap(creatorUsername -> {
+                                    if(!creatorUsername.equals(user.getUsername())){
+                                        return Mono.error(new NotAllowedToCreateAssignmentException());
+                                    }else{
+                                        return Mono.empty();
+                                    }
+                                 });
+        });
     }
 }
