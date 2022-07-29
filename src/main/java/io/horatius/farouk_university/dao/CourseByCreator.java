@@ -21,6 +21,8 @@ public class CourseByCreator {
     @PrimaryKeyColumn(value = "course_id", type = PrimaryKeyType.PARTITIONED)
     @CassandraType(type = CassandraType.Name.TIMEUUID)
     private UUID courseId;
+    @CassandraType(type = CassandraType.Name.TEXT, userTypeName = "course_name")
+    private String courseName;
     @CassandraType(type = CassandraType.Name.TEXT)
     private String description;
     @CassandraType(type = CassandraType.Name.TEXT, userTypeName = "enrollment_key")
