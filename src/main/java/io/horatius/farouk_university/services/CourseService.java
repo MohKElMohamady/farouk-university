@@ -101,4 +101,41 @@ public class CourseService {
         return Flux.concat(allCreatedCourses, allEnrolledCourses);
     }
 
+    /*
+     * Iterating through the first flux and looking in the second flux that match two properties
+     * Ask if correct
+     * https://stackoverflow.com/questions/49115135/map-vs-flatmap-in-reactor
+     */
+    public Flux<CourseByCreatorAndId> getAvailableCourses(Mono<Principal> principal){
+
+        /*Flux<CourseByCreator> coursesById = this.courseCapacityRepository.findAll().filter(c -> c.getCapacity() >= 1)
+                .log()
+                .flatMap(courseCapacity -> {
+                    System.out.println("Coming from capacity " + courseCapacity.getCourseId());
+             return this.courseByCreatorRepository
+                     .findAll()
+                     .log()
+                     .filter(courseByCreator -> {
+                         System.out.println("Coming from courseCreator " + courseByCreator.getCourseId());
+                         return courseByCreator.getCourseId() == courseCapacity.getCourseId();
+                     });
+            }
+        ).log();*/
+        Mono<User> principalPlaceholder = Mono.just(new User("laurence.krauss", "whatifitsnotequal", "Kate", "Dibiasky"));
+        Flux<UUID> availableCoursesId = this.courseCapacityRepository
+                .findAll()
+                .filter(course -> course.getCapacity() >= 1)
+                .flatMap(course -> Flux.just(course.getCourseId()));
+        /*
+         * https://stackoverflow.com/questions/60028533/difference-between-two-flux
+         * https://stackoverflow.com/questions/69925549/filter-multiple-condition-reactor-flux-mono-filterwhen
+         */
+
+        return principalPlaceholder.flatMapMany(p -> {
+           return this.courseRepository.findAll()
+                   .filter(e -> !e.getCourseKey().getCourseCreator().equals(p.getUsername()))
+                   .filterWhen(courseByCreatorAndId -> availableCoursesId.hasElement(courseByCreatorAndId.getCourseKey().getCourseId()));
+        });
+
+    }
 }
