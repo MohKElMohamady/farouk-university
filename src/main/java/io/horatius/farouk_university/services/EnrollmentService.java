@@ -2,7 +2,7 @@ package io.horatius.farouk_university.services;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 import io.horatius.farouk_university.dao.EnrollmentByCourse;
-import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.dao.Scholar;
 import io.horatius.farouk_university.exceptions.MaximumUsersEnrolledException;
 import io.horatius.farouk_university.exceptions.UserAlreadyEnrolledException;
 import io.horatius.farouk_university.models.Enrollment;
@@ -23,7 +23,7 @@ public class EnrollmentService {
     @Autowired
     private CourseCapacityRepository courseCapacityRepository;
     public Mono<Enrollment> enrollUserToCourseWithMono(UUID courseId, Mono<Principal> principle){
-        Mono<User> p = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        Mono<Scholar> p = Mono.just(new Scholar("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         this.courseCapacityRepository.findCourseFreeSlotsByCourseId(courseId)
                 .flatMap(courseCapacity -> {
                     if (courseCapacity.getCapacity() > 1)
@@ -66,7 +66,7 @@ public class EnrollmentService {
      * Throughout this method, Flux are used which is surprisingly faster (No idea how)
      */
     public Flux<Enrollment> enrollUserToCourseWithFlux(UUID courseId, Mono<Principal> principle){
-        Mono<User> p = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        Mono<Scholar> p = Mono.just(new Scholar("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         this.courseCapacityRepository.findCourseFreeSlotsByCourseId(courseId)
                 .flatMap(courseCapacity -> {
                     if (courseCapacity.getCapacity() > 1)
@@ -107,7 +107,7 @@ public class EnrollmentService {
           );
     }
     public Flux<Enrollment> getEnrollment(UUID enrollment, Mono<Principal> principal){
-        User p = new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky");
+        Scholar p = new Scholar("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky");
         return this.enrollmentRepository.findEnrollmentByCourseId(enrollment).flatMap(
                 enrollmentByCourse -> {
                     return Mono.just(new Enrollment.Builder().enrolledUser(p.getName()).build());

@@ -1,7 +1,7 @@
 package io.horatius.farouk_university.models;
 
 
-import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.dao.Scholar;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,19 +14,19 @@ import java.util.UUID;
 public class Submission {
     private UUID submissionId;
     private Assignment assignment;
-    private User user;
+    private Scholar scholar;
     private String answer;
 
     public Submission(Builder builder){
         this.submissionId = builder.submissionId;
         this.assignment = builder.assignment;
-        this.user = builder.user;
+        this.scholar = builder.scholar;
         this.answer = builder.answer;
     }
     public static class Builder {
         private UUID submissionId;
         private Assignment assignment;
-        private User user;
+        private Scholar scholar;
         private String answer;
 
         public Builder submissionId(UUID submissionId){
@@ -44,14 +44,14 @@ public class Submission {
             return this;
         }
 
-        public Builder user(User user){
-            this.user = user;
+        public Builder user(Scholar scholar){
+            this.scholar = scholar;
             return this;
         }
 
         public Builder user(String userId){
-            this.user = new User();
-            this.user.setUsername(userId);
+            this.scholar = new Scholar();
+            this.scholar.setUsername(userId);
             return this;
         }
 

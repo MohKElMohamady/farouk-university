@@ -2,7 +2,7 @@ package io.horatius.farouk_university.services;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 import io.horatius.farouk_university.dao.SubmissionByAssignment;
-import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.dao.Scholar;
 import io.horatius.farouk_university.models.Submission;
 import io.horatius.farouk_university.repositories.SubmissionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ public class SubmissionService {
     @Autowired
     private SubmissionRepository submissionRepository;
     public Mono<Submission> submit(Submission submission, UUID courseId, UUID assignmentId, Mono<Principal> principal){
-        Mono<User> principalPlaceholder = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        Mono<Scholar> principalPlaceholder = Mono.just(new Scholar("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         return principalPlaceholder.flatMap(p -> {
             return this.submissionRepository.save(new SubmissionByAssignment(assignmentId, Uuids.timeBased(), p.getUsername(), submission.getAnswer()))
                     .<Submission>flatMap(submissionByAssignment -> {

@@ -1,7 +1,7 @@
 package io.horatius.farouk_university.models;
 
 import io.horatius.farouk_university.dao.CourseByCreatorAndId;
-import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.dao.Scholar;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -15,7 +15,7 @@ public class Course {
     private String courseName;
     private String description;
     private String enrollmentKey;
-    private User creator;
+    private Scholar creator;
     private List<Enrollment> enrollmentList;
     private int capacity;
 
@@ -38,7 +38,7 @@ public class Course {
     public static class Builder {
         private UUID courseId;
         private String description;
-        private User creator;
+        private Scholar creator;
         private List<Enrollment> enrollmentList = new ArrayList<>();
         private int capacity;
         public Builder(){}
@@ -51,7 +51,7 @@ public class Course {
             this.description = description;
             return this;
         }
-        public Builder creator(User creator){
+        public Builder creator(Scholar creator){
             this.creator = creator;
             return this;
         }

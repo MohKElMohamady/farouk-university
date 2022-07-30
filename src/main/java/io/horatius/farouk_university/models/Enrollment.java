@@ -1,7 +1,7 @@
 package io.horatius.farouk_university.models;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
-import io.horatius.farouk_university.dao.User;
+import io.horatius.farouk_university.dao.Scholar;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,28 +11,28 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 public class Enrollment {
-    private User enrolledUser;
+    private Scholar enrolledScholar;
     private Course course;
     private UUID enrollmentDate;
 
     public Enrollment(Builder builder){
-        this.enrolledUser = builder.enrolledUser;
+        this.enrolledScholar = builder.enrolledScholar;
         this.course = builder.course;
         this.enrollmentDate = builder.enrollmentDate;
     }
 
     public static class Builder {
-        private User enrolledUser = new User();
+        private Scholar enrolledScholar = new Scholar();
         private Course course = new Course();
         private UUID enrollmentDate;
 
-        public Builder enrolledUser(User user){
-            this.enrolledUser = user;
+        public Builder enrolledUser(Scholar scholar){
+            this.enrolledScholar = scholar;
             return this;
         }
 
         public Builder enrolledUser(String username){
-            this.enrolledUser = new User(username);
+            this.enrolledScholar = new Scholar(username);
             return this;
         }
         public Builder course(UUID courseId){
