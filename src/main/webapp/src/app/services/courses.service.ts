@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { Course } from '../models/course';
 
 @Injectable({providedIn: 'root'})
-export class ServiceNameService {
+export class CoursesService {
 
     private localApi = "http://localhost:8080/course";
 
@@ -15,7 +15,7 @@ export class ServiceNameService {
     }
 
     public userCourses() : Observable<Course[]> {
-        return this.httpClient.get<Course[]>(this.localApi + "available-courses");
+        return this.httpClient.get<Course[]>("http://localhost:8080/course/my-courses");
     }
 
     public createCourse(course : Course) : Observable<Course> {
