@@ -8,6 +8,9 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
+import { CoursesModule } from './courses/courses.module';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [
@@ -18,9 +21,11 @@ import { HomeComponent } from './home/home.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
-    StoreModule.forRoot({}, {}),
+    StoreModule.forRoot({}),
     EffectsModule.forRoot([]),
-    MaterialModule
+    StoreDevtoolsModule.instrument(),
+    MaterialModule,
+    CoursesModule
   ],
   providers: [],
   bootstrap: [AppComponent]
