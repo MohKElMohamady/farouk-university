@@ -14,7 +14,12 @@ import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.server.SecurityWebFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
 import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
 
 @Configuration
 @EnableReactiveMethodSecurity
@@ -30,9 +35,10 @@ public class SecurityConfig {
         return http
                 .authorizeExchange()
                 .anyExchange()
-                .authenticated()
+                .permitAll()
+                /*.authenticated()
                 .and()
-                .httpBasic()
+                .httpBasic()*/
                 .and()
                 .csrf(csrf -> csrf.disable())
                 .build();
