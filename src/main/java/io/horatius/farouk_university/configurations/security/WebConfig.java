@@ -1,4 +1,4 @@
-package io.horatius.farouk_university.configurations;
+package io.horatius.farouk_university.configurations.security;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.config.CorsRegistry;
@@ -12,7 +12,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
  */
 @Configuration
 @EnableWebFlux
-public class CorsGlobalConfiguration implements WebFluxConfigurer {
+public class WebConfig implements WebFluxConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")

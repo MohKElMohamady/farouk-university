@@ -1,4 +1,4 @@
-package io.horatius.farouk_university.configurations;
+package io.horatius.farouk_university.configurations.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +42,11 @@ public class SecurityConfig {
                 .and()
                 .build();
     }
-
+    /*
+     * For some reason adding the CorsWebFilter as a bean worked to disable cors, but implementing the WebFluxConfigurer
+     * and overriding the addCorsMapping method has not worked till now. (I need to figure out why)
+     *
+     */
     @Bean
     CorsWebFilter corsWebFilter() {
         CorsConfiguration corsConfig = new CorsConfiguration();
