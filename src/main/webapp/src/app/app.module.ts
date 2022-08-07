@@ -11,6 +11,8 @@ import { HomeComponent } from './home/home.component';
 import { CoursesModule } from './courses/courses.module';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { BasicAuthHeader } from './interceptors/authentication.interceptor';
 
 @NgModule({
   declarations: [
@@ -27,7 +29,7 @@ import { environment } from '../environments/environment';
     MaterialModule,
     CoursesModule
   ],
-  providers: [],
+  providers: [{provide: HTTP_INTERCEPTORS, useClass: BasicAuthHeader, multi : true}],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

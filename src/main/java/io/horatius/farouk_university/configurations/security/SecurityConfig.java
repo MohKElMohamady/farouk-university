@@ -33,6 +33,7 @@ public class SecurityConfig {
     @Bean
     public SecurityWebFilterChain securityWebFilterChain(ServerHttpSecurity http){
         return http
+                .addFilterAt(corsWebFilter(), SecurityWebFiltersOrder.CORS)
                 .cors().and().csrf().disable()
                 .authorizeExchange()
                 .anyExchange()
@@ -45,7 +46,8 @@ public class SecurityConfig {
     /*
      * For some reason adding the CorsWebFilter as a bean worked to disable cors, but implementing the WebFluxConfigurer
      * and overriding the addCorsMapping method has not worked till now. (I need to figure out why)
-     *
+     * Found the solution at
+     *https://www.baeldung.com/spring-webflux-cors
      */
     @Bean
     CorsWebFilter corsWebFilter() {
@@ -56,8 +58,9 @@ public class SecurityConfig {
         corsConfig.addAllowedMethod("GET");
         corsConfig.addAllowedMethod("PUT");
         corsConfig.addAllowedMethod("POST");
-        corsConfig.addAllowedHeader("Access-Control-Allow-Origin");
+        corsConfig.addAllowedHeader("Content-Type");
         corsConfig.addAllowedHeader("Authorization");
+        corsConfig.addAllowedHeader("Access-Control-Allow-Origin");
         UrlBasedCorsConfigurationSource source =
                 new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", corsConfig);
