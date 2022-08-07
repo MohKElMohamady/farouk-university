@@ -1,8 +1,11 @@
-package io.horatius.farouk_university.configurations;
+package io.horatius.farouk_university.configurations.database;
 
+import org.springframework.boot.autoconfigure.cassandra.CqlSessionBuilderCustomizer;
 import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Bean;
 
 import java.io.File;
+import java.nio.file.Path;
 
 @ConfigurationProperties(prefix = "datastax.astra")
 public class DataStaxAstraConfiguration {
@@ -21,5 +24,11 @@ public class DataStaxAstraConfiguration {
 
     public void setSecureConnectBundle(File secureConnectBundle) {
         this.secureConnectBundle = secureConnectBundle;
+    }
+
+    @Bean
+    public CqlSessionBuilderCustomizer sessionBuilderCustomizer(DataStaxAstraConfiguration dataStaxAstraConfiguration){
+        Path bundle = dataStaxAstraConfiguration.getSecureConnectBundle().toPath();
+        return builder -> builder.withCloudSecureConnectBundle(bundle);
     }
 }

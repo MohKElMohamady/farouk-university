@@ -12,12 +12,13 @@ import org.springframework.web.reactive.config.WebFluxConfigurer;
  */
 @Configuration
 @EnableWebFlux
-public class WebConfig implements WebFluxConfigurer {
+public class CorsGlobalConfiguration implements WebFluxConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-                .allowedOrigins("*")
-                .allowedMethods("GET", "POST", "DELETE", "PUT")
-                .allowedHeaders("Authorization");
+                .allowedOrigins("/**")
+                .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
+                .allowedHeaders("Access-Control-Allow-Origin", "Authorization", "Content-Type")
+                .maxAge(36000);
     }
 }
