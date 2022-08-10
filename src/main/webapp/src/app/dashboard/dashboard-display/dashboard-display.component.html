@@ -1,0 +1,47 @@
+<div>
+    <div class="mat-display-2">Available Courses</div>
+<mat-grid-list cols="3" rowHeight="2:1" gutterSize="100px">
+    <mat-grid-tile *ngFor="let availableCourse of availableCourses">
+        <mat-card class="course">
+            <mat-card-title>
+                Course name :{{availableCourse.courseName}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{availableCourse.courseKey.courseCreator}}
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+                {{availableCourse.description}}
+            </mat-card-subtitle>
+            <mat-card-content>
+                <p>
+                  {{50}}
+                </p>
+              </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>
+</div>
+
+<div>
+    <div class="mat-display-2">My Courses</div>
+<mat-grid-list cols="3" rowHeight="2:1" gutterSize="100px">
+    <mat-grid-tile *ngFor="let userCourse of userCourses">
+        <mat-card class="course">
+            <mat-card-title>
+                {{userCourse.courseName}}
+            </mat-card-title>
+            <mat-card-subtitle>
+                {{userCourse.courseKey.courseCreator}}
+            </mat-card-subtitle>
+            <mat-card-subtitle>
+                {{userCourse.description}}
+            </mat-card-subtitle>
+            <mat-card-content>
+                <p>
+                  {{50}}
+                </p>
+              </mat-card-content>
+        </mat-card>
+    </mat-grid-tile>
+</mat-grid-list>
+</div>
