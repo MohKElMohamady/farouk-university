@@ -10,7 +10,7 @@ export class AuthenticationService {
     private api = "http://localhost:8080/user";
 
     public login(user : User) : Observable<User> {
-        return this.httpClient.post<User>(this.api + "/logout", user);
+        return this.httpClient.post<User>(this.api + "/login", user);
     }
 
     public logout() : Observable<User> {
