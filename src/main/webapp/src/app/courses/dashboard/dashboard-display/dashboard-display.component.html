@@ -25,7 +25,7 @@
 <div>
     <div class="mat-display-2">My Courses</div>
 <mat-grid-list cols="3" rowHeight="2:1" gutterSize="100px">
-    <mat-grid-tile *ngFor="let userCourse of userCourses">
+    <mat-grid-tile *ngFor="let userCourse of userCourses" (click)="navigateToCourse(userCourse.courseKey.courseId)">
         <mat-card class="course">
             <mat-card-title>
                 {{userCourse.courseName}}
@@ -45,3 +45,11 @@
     </mat-grid-tile>
 </mat-grid-list>
 </div>
+
+<mat-grid-list cols="3" rowHeight="2:1" gutterSize="100px">
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile></mat-grid-tile>
+    <mat-grid-tile>
+        <button mat-raised-button color="primary" (click)="createNewCourse()">Create a new course</button>
+    </mat-grid-tile>
+</mat-grid-list>

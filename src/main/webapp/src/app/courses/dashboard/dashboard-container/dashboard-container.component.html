@@ -1,0 +1,6 @@
+<dashboard-display
+  [availableCourses]="availableCourses$ | async"
+  [userCourses]="userCourses$ | async"
+  (navigateToCourseEvent)="navigateToCourse($event)"
+  (createNewCourseEvent)="createNewCourse()"
+></dashboard-display>
