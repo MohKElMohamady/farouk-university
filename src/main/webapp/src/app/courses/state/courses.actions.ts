@@ -10,6 +10,6 @@ export const successfullyFetchedAvailableCourses = createAction("[Courses] Succe
 
 export const successfullyFetchedUserCourses = createAction("[Courses] Successfully fetched user courses", props<{userCourses : Course[]}>());
 
-export const fetchAssignmentsOfCourse = createAction("[Courses] Fetch assignments of courses");
+export const fetchAssignmentsOfCourse = createAction("[Courses] Fetch assignments of courses", props<{courseId : string}>());
 
 export const successfullyFetchedAssignmentsOfCourse = createAction("[Courses] Fetched assignments of courses", props<{assignments : Assignment[]}>());

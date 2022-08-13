@@ -1,3 +1,4 @@
+import { Assignment } from "./assignment";
 import { CourseKey } from "./course-key";
 import { Enrollment } from "./enrollment";
 import { User } from "./user";
@@ -10,4 +11,5 @@ export interface Course {
     creator : User;
     enrollments : Enrollment[];
     capacity : number;
+    assignments? : Assignment[];
 }

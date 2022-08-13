@@ -1,6 +1,6 @@
 import { createReducer, on } from '@ngrx/store';
 import { CoursesState } from './courses.state';
-import * as coursesActions from './courses.actions';
+import * as CoursesActions from './courses.actions';
 
 export const initialState: CoursesState = {
     availableCourses: [],
@@ -11,19 +11,21 @@ export const initialState: CoursesState = {
             courseCreator : 'Jeremy Strong'
         },
         courseName: 'Introduction to Economics',
-        creator: {},
+        creator: {
+            username : "",
+            password : ""
+        },
         capacity: 30,
         description: 'They mistook leverage for genius',
         enrollmentKey: 'eisman',
         enrollments: [],
     },
-    assignments: [],
 };
 
 export const coursesReducers = createReducer(
     initialState,
     on(
-        coursesActions.successfullyFetchedAvailableCourses,
+        CoursesActions.successfullyFetchedAvailableCourses,
         (state, action): CoursesState => {
             return {
                 ...initialState,
@@ -31,18 +33,21 @@ export const coursesReducers = createReducer(
             };
         }
     ),
-    on(coursesActions.successfullyFetchedUserCourses,
+    on(CoursesActions.successfullyFetchedUserCourses,
         (state, aciton) : CoursesState => {
             return {
                 ...initialState,
                 userCourses : aciton.userCourses
             }
         }),
-    on(coursesActions.successfullyFetchedAssignmentsOfCourse, 
+    on(CoursesActions.successfullyFetchedAssignmentsOfCourse, 
         (state,action) : CoursesState => {
+            let course = JSON.parse(JSON.stringify(state.selectedCourse));
+            console.log(action.assignments);
+            course.assignments = action.assignments;
             return {
                 ...initialState,
-                assignments : action.assignments
+                selectedCourse : course
             }
         })
 );

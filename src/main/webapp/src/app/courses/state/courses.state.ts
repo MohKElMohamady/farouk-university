@@ -5,5 +5,4 @@ export interface CoursesState{
     availableCourses : Course[];
     userCourses : Course[];
     selectedCourse : Course;
-    assignments : Assignment[];
 }

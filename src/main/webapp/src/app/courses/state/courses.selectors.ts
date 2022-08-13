@@ -24,10 +24,11 @@ export const fetchUserCourse = createSelector(coursesFeatureState, (state : Cour
  */
 
 export const fetchCourseWithId = (props : {courseId : string}) => { return createSelector(coursesFeatureState, (state : CoursesState) : Course | undefined => {
-    return state.userCourses.find(course => course.courseKey.courseId = props.courseId);
+    const courseId = JSON.parse(JSON.stringify(props.courseId));
+    return state.userCourses.find(course => course.courseKey.courseId === courseId);
 });
 }
 
-export const fetchAssignments = createSelector(coursesFeatureState, (state : CoursesState) : Assignment[] => {
-    return state.assignments;
-})
+export const fetchAssignments = createSelector(coursesFeatureState, (state : CoursesState) : Assignment[] | undefined => {
+    return state.selectedCourse?.assignments;
+});
