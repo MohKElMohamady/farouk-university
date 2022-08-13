@@ -1,6 +1,6 @@
 package io.horatius.farouk_university.models;
 
-import io.horatius.farouk_university.dao.Scholar;
+import io.horatius.farouk_university.dao.User;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 public class Assessment {
     private UUID assessmentId;
     private Submission submission;
-    private Scholar scholar;
+    private User scholar;
     private int grade;
     private String comment;
 
