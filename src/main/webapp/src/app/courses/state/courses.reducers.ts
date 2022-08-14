@@ -28,7 +28,7 @@ export const coursesReducers = createReducer(
         CoursesActions.successfullyFetchedAvailableCourses,
         (state, action): CoursesState => {
             return {
-                ...initialState,
+                ...state,
                 availableCourses: action.availableCourses,
             };
         }
@@ -36,7 +36,7 @@ export const coursesReducers = createReducer(
     on(CoursesActions.successfullyFetchedUserCourses,
         (state, aciton) : CoursesState => {
             return {
-                ...initialState,
+                ...state,
                 userCourses : aciton.userCourses
             }
         }),
@@ -46,7 +46,7 @@ export const coursesReducers = createReducer(
             console.log(action.assignments);
             course.assignments = action.assignments;
             return {
-                ...initialState,
+                ...state,
                 selectedCourse : course
             }
         })
