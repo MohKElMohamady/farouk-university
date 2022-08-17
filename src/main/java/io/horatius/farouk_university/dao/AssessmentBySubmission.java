@@ -9,13 +9,15 @@ import org.springframework.data.cassandra.core.cql.PrimaryKeyType;
 import org.springframework.data.cassandra.core.mapping.CassandraType;
 import org.springframework.data.cassandra.core.mapping.PrimaryKey;
 import org.springframework.data.cassandra.core.mapping.PrimaryKeyColumn;
+import org.springframework.data.cassandra.core.mapping.Table;
 
 import java.util.UUID;
 @AllArgsConstructor
 @Data
 @NoArgsConstructor
+@Table(value = "assessments_by_submission")
 public class AssessmentBySubmission {
-    @PrimaryKeyColumn(value = "submission_id", ordinal = 0)
+    @PrimaryKeyColumn(value = "submission_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
     @CassandraType(type = CassandraType.Name.TIMEUUID)
     private UUID submissionId;
     @PrimaryKeyColumn(type = PrimaryKeyType.CLUSTERED, ordinal = 1, ordering = Ordering.DESCENDING)
