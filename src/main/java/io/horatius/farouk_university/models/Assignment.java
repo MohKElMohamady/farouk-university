@@ -15,7 +15,9 @@ public class Assignment {
     private String description;
 
     public Assignment(Builder builder){
-
+        this.course = builder.course;
+        this.assignmentId = builder.assignmentId;
+        this.description = builder.description;
     }
 
     public static class Builder {

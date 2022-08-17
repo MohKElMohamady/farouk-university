@@ -1,6 +1,5 @@
 package io.horatius.farouk_university.models;
 
-import io.horatius.farouk_university.dao.Scholar;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -11,10 +10,10 @@ import java.util.List;
 
 public class User implements UserDetails {
 
-    private Scholar scholar;
+    private io.horatius.farouk_university.dao.User scholar;
     private List<SimpleGrantedAuthority> authorityList;
 
-    public User(Scholar scholar){
+    public User(io.horatius.farouk_university.dao.User scholar){
         this.scholar = scholar;
     }
 

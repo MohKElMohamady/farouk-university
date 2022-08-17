@@ -40,6 +40,11 @@ public class Assessment {
             return this;
         }
 
+        public Builder submission(Submission submission){
+            this.submission = submission;
+            return this;
+        }
+
         public Builder assignmentId(UUID assignmentId){
             this.assignmentId = assignmentId;
             return this;
