@@ -18,6 +18,8 @@ public interface CourseRepository extends ReactiveCassandraRepository<CourseByCr
     /*@Query("SELECT * FROM courses_by_creator_and_id WHERE course_creator != ?0")
     public Flux<CourseByCreatorAndId> findAllOthersCourses(String courseCreator);*/
 
-    @Query("SELECT course_creator FROM courses_by_creator_and_id WHERE course_id = ?0")
-    public Mono<String> getCourseCreatorUserName(UUID courseUuid);
+    @Query("SELECT * FROM courses_by_creator_and_id WHERE course_id = ?0 AND course_creator = ?1")
+    public Mono<CourseByCreatorAndId> getCourseByCourseIdAndCreator(UUID courseId, String userName);
+    @Query("DELETE * FROM courses_by_creator_and_id WHERE course_id = ?0 AND course_creator = ?1")
+    public Mono<CourseByCreatorAndId> deleteCourseByIdAndCreator(UUID courseId, String userName);
 }

@@ -2,7 +2,7 @@ package io.horatius.farouk_university.services;
 
 import com.datastax.oss.driver.api.core.uuid.Uuids;
 import io.horatius.farouk_university.dao.CourseByCreatorAndId;
-import io.horatius.farouk_university.dao.Scholar;
+import io.horatius.farouk_university.dao.User;
 import io.horatius.farouk_university.dao.keys.CourseKey;
 import io.horatius.farouk_university.exceptions.InvalidCourseException;
 import io.horatius.farouk_university.models.Course;
@@ -28,7 +28,7 @@ public class CourseService {
 
     public Mono<Course> createCourse(Course course, Mono<Principal> principal){
         var principalPlaceHolder =
-                Mono.just(new Scholar("laurence.krauss", "somethingfromnothing", "Lawrence", "Kraus"));
+                Mono.just(new User("dibiasky", "somethingfromnothing", "Lawrence", "Kraus"));
         var courseUuid = Uuids.timeBased();
         course.setCourseId(courseUuid);
         if(course.getCapacity() < 1 || course.getCapacity() > 100 ||
@@ -43,7 +43,7 @@ public class CourseService {
                                                course.getCourseName(),
                                                course.getDescription(),
                                                course.getEnrollmentKey())))
-                .log("Creating the course with " + courseUuid)
+                /*.log("Creating the course with " + courseUuid)*/
                 .flatMap(c -> Mono.just(course));
     }
 
@@ -64,10 +64,14 @@ public class CourseService {
      * https://stackoverflow.com/questions/73110893/filtering-with-comparing-each-element-of-a-flux-to-a-single-mono/73111208#73111208
      */
     public Flux<CourseByCreatorAndId> getUserCourses(Mono<Principal> placeholder) {
+        placeholder.flatMap(principal1 -> {
+            System.out.println(principal1.getName());
+            return Mono.just(principal1);
+        });
         /*
          * Leaving the principal as a placeholder because Spring Security is not yet configured
          */
-        var principal = Mono.just(new Scholar("laurence.krauss", "whatifitsnotequal", "Kate", "Dibiasky"));
+        var principal = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         /*
          * Because this flux is needed to fetch the created courses AND the enrolled courses, it makes sense to create
          * it once and to be used by the functionality of filtering created courses and enrolled courses.
@@ -77,22 +81,22 @@ public class CourseService {
          * Fetch the created courses by the user using the userId as a filter
          */
         var allCreatedCourses = principal
-                .log("Fetching the created courses by user" + principal)
+                /*.log("Fetching the created courses by user" + principal)*/
                 .flatMapMany(p -> {
                     return  allCourses
                             .filter(course -> course.getCourseKey().getCourseCreator().equals(p.getUsername()));
                 });
 
-        var allEnrolledCoursesIds = principal.
-                log("Fetching all enrollements of user " + principal)
+        var allEnrolledCoursesIds = principal
+                /*.log("Fetching all enrollements of user " + principal)*/
                     .flatMapMany(p -> {
                     return enrollmentRepository.findAll().filter(enrollment -> enrollment
                             .getUserId()
                             .equals(p.getUsername()));
                      })
-                .log("Mapping each ")
+                /*.log("Mapping each ")*/
                 .flatMap(enrollment -> Flux.just(enrollment.getCourseId()))
-                .log();
+                /*.log()*/;
 
         Flux<CourseByCreatorAndId> allEnrolledCourses = allCourses.filterWhen(course -> {
                     return allEnrolledCoursesIds.hasElement(course.getCourseKey().getCourseId());
@@ -121,7 +125,11 @@ public class CourseService {
                      });
             }
         ).log();*/
-        Mono<Scholar> principalPlaceholder = Mono.just(new Scholar("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        principal.flatMap(principal1 -> {
+            System.out.println(principal1.getName());
+            return Mono.just(principal1);
+        });
+        Mono<User> principalPlaceholder = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
         Flux<UUID> availableCoursesId = this.courseCapacityRepository
                 .findAll()
                 .filter(course -> course.getCapacity() >= 1)
@@ -144,4 +152,16 @@ public class CourseService {
                     .switchIfEmpty(Mono.error(new NotAllowedToCreateAssignmentException()));
         });
     }*/
+
+
+    public Mono<Course> deleteCourse(UUID courseUuid){
+        Mono<User> principalPlaceholder = Mono.just(new User("dibiasky", "whatifitsnotequal", "Kate", "Dibiasky"));
+        return principalPlaceholder.flatMap(user -> {
+            return this.courseRepository.deleteCourseByIdAndCreator(courseUuid, user.getUsername());
+        }).flatMap(courseByCreatorAndId -> {
+            return Mono.just(new Course.Builder().courseId(courseByCreatorAndId.getCourseKey().getCourseId())
+                    .description(courseByCreatorAndId.getDescription())
+                    .build());
+        });
+    }
 }
