@@ -21,4 +21,8 @@ export class CoursesService {
     public createCourse(course : Course) : Observable<Course> {
         return this.httpClient.post<Course>(this.localApi, course);
     }
+
+    public deleteCourse(courseId : string | undefined) : Observable<Course> {
+        return this.httpClient.delete<Course>(this.localApi + courseId);
+    }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { map, mergeMap } from 'rxjs';
+import { catchError, map, mergeMap } from 'rxjs';
 import { Course } from 'src/app/models/course';
 import { AssignmentsService } from 'src/app/services/assignments.service';
 import { CoursesService } from 'src/app/services/courses.service';
@@ -35,6 +35,25 @@ export class CoursesEffect {
                     })
                 );
             }),
+        );
+    });
+
+    public deleteCourseIfCreator = createEffect(() => {
+        return this.actions$.pipe(
+            ofType(coursesActions.deleteCourse),
+            mergeMap((action) => {
+                return this.coursesService.deleteCourse(action.course?.courseKey.courseId).pipe(
+                    map((course : Course) => {
+                        this.snackbar.open("Course deleted successfully", "Ok");
+                        return coursesActions.successfullyDeleteCourse();
+                    }),
+                    // catchError((err) => {
+                    //     err
+                    //     this.snackbar.open(`Course deleted successfully ${err}`, "Ok");
+                    //     return coursesActions.failedToDeleteCourse();
+                    // })
+                )
+            })
         );
     });
 

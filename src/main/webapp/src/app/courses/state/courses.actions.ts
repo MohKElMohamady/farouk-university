@@ -6,6 +6,8 @@ export const fetchAvailableCourses = createAction("[Courses] Fetch available cou
 
 export const fetchUserCourses = createAction("[Courses] Fetch user courses");
 
+export const selectCourse = createAction("[Courses] Fetch the course to display", props<{courseId : string}>());
+
 export const successfullyFetchedAvailableCourses = createAction("[Courses] Successfully fetched available courses", props<{availableCourses : Course[]}>());
 
 export const successfullyFetchedUserCourses = createAction("[Courses] Successfully fetched user courses", props<{userCourses : Course[]}>());
@@ -13,3 +15,9 @@ export const successfullyFetchedUserCourses = createAction("[Courses] Successful
 export const fetchAssignmentsOfCourse = createAction("[Courses] Fetch assignments of courses", props<{courseId : string}>());
 
 export const successfullyFetchedAssignmentsOfCourse = createAction("[Courses] Fetched assignments of courses", props<{assignments : Assignment[]}>());
+
+export const deleteCourse = createAction("[Courses] Delete course", props<{course : Course | null | undefined}>());
+
+export const successfullyDeleteCourse = createAction("[Courses] Successfully delete course");
+
+export const failedToDeleteCourse = createAction("[Courses] Failed to delete course");
