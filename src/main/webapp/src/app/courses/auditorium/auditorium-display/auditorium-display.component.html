@@ -1,0 +1,19 @@
+<mat-card> 
+    <div> Information </div>
+    <div>Course name: {{course?.courseName}}</div>
+    <div>Course creator: {{course?.courseKey?.courseCreator}}</div>
+    <div>Course description: {{ course?.description }}</div>
+    <div>Course capacity: {{ course?.capacity }}</div>
+    <button mat-raised-button color="warn" (click)="deleteCourse(course)">Delete course</button>
+</mat-card>
+
+<mat-card> 
+<mat-list>
+    List of assignments:
+    <div *ngFor="let assignment of assignments">
+        <mat-divider></mat-divider>
+        <mat-list-item>{{assignment.assignmentId}}        {{assignment.description}}</mat-list-item>
+    </div>
+</mat-list>
+    <button mat-raised-button color="primary">Create Assignment</button>
+</mat-card>
