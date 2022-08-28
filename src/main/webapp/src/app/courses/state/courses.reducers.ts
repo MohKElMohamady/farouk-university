@@ -20,6 +20,7 @@ export const initialState: CoursesState = {
         enrollmentKey: 'eisman',
         enrollments: [],
     },
+    latestAssessmentsOfCoursesAssignment : []
 };
 
 export const coursesReducers = createReducer(
@@ -49,5 +50,12 @@ export const coursesReducers = createReducer(
                 ...state,
                 selectedCourse : course
             }
-        })
+        }),
+    on(CoursesActions.fetchingLatestAssessmentsSuccess, (state, action) : CoursesState => {
+        const assessments = action.assessments;
+        return {
+            ...state,
+             latestAssessmentsOfCoursesAssignment : assessments
+        }
+    })
 );

@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector, MemoizedSelector, Selector } from "@ngrx/store";
+import { Assessment } from "src/app/models/assessment";
 import { Assignment } from "src/app/models/assignment";
 import { Course } from "src/app/models/course";
 import { CoursesState } from "./courses.state";
@@ -25,10 +26,15 @@ export const fetchUserCourse = createSelector(coursesFeatureState, (state : Cour
 
 export const fetchCourseWithId = (props : {courseId : string}) => { return createSelector(coursesFeatureState, (state : CoursesState) : Course | undefined => {
     const courseId = JSON.parse(JSON.stringify(props.courseId));
-    return state.userCourses.find(course => course.courseKey.courseId === courseId);
+    const course = state.userCourses.find(course => course.courseKey.courseId === courseId);
+    return course;
 });
 }
 
 export const fetchAssignments = createSelector(coursesFeatureState, (state : CoursesState) : Assignment[] | undefined => {
     return state.selectedCourse?.assignments;
 });
+
+export const latestAssessmentsOfCourse = createSelector(coursesFeatureState, (state : CoursesState) : Assessment[] | undefined => {
+    return state.latestAssessmentsOfCoursesAssignment
+})
